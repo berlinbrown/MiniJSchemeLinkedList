@@ -12,10 +12,11 @@ package org.bot.jscheme;
  */
 public abstract class Procedure {
 
-	public static String DEFAULT_NAME = "Anonymous Procedure";
+	public static final String DEFAULT_NAME = "Anonymous Procedure";
 	
 	private String name = DEFAULT_NAME;
 
+	@Override
 	public String toString() {
 		return "{" + name + "}";
 	}

@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class Environment {
 	
-	private Map mapDataVars = new HashMap();
+	private final Map<String, Object> mapDataVars = new HashMap<>();
 	
 	public Environment() {
 	}
@@ -34,7 +34,7 @@ public class Environment {
 	}
 
 	/** Add a new variable,value pair to this environment. */
-	public Object define(Object var, Object val) {
+	public String define(String var, Object val) {
 		
 		this.mapDataVars.put(var, val);			
 		if (val instanceof Procedure

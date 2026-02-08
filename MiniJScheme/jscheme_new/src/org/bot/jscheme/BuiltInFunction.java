@@ -24,12 +24,9 @@ public class BuiltInFunction
 
 	private int idNumber;
 	
-	public static Double ZERO = new Double(0.0);
-	public static Double ONE = new Double(1.0);
+	public static final Double ZERO = Double.valueOf(0.0);
+	public static final Double ONE = Double.valueOf(1.0);
 
-	private BuiltInFunction() {
-		
-	}	
 	public BuiltInFunction(int id, int minArgs, int maxArgs) {
 		this.idNumber = id;
 		this.minArgs = minArgs;
@@ -37,7 +34,7 @@ public class BuiltInFunction
 	}
 	
 	public static Double num(double x) { 
-		return (x == 0.0) ? ZERO : (x == 1.0) ? ONE : new Double(x); 
+		return (x == 0.0) ? ZERO : (x == 1.0) ? ONE : Double.valueOf(x); 
 	}
 	public static double num(Object x) { 
 		if (x instanceof Number) {
@@ -96,6 +93,7 @@ public class BuiltInFunction
 	/** 
 	 * Apply a primitive to a list of arguments.
 	 */
+	@Override
 	public Object apply(Scheme interp, Object args) {
 		// First make sure there are the right number of arguments. 
 		int nArgs = SchemeUtil.length(args);

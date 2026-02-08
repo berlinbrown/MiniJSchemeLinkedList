@@ -31,10 +31,10 @@ public class InputReader {
 	
 	private Reader inputReader;
 
-	private StringBuffer buff = new StringBuffer();
+	private StringBuilder buff = new StringBuilder();
 
-	private Stack charStack = new Stack();
-	private Stack tokenStack = new Stack();
+	private Stack<Character> charStack = new Stack<>();
+	private Stack<Object> tokenStack = new Stack<>();
 
 	public InputReader(InputStream in) {
 		this.inputReader = new InputStreamReader(new BufferedInputStream(in));
@@ -123,9 +123,9 @@ public class InputReader {
 	public Object read() {
 		try {
 			Object token = nextToken();
-			if (token == "(") {
+			if ("(".equals(token)) {
 				return readTail();
-			} else if (token == ")") {
+			} else if (")".equals(token)) {
 				System.out.println("WARN: Extra ')' ignored.");
 				return read();
 			} else {
@@ -139,17 +139,16 @@ public class InputReader {
 
 	private Object readTail() throws IOException {
 		Object token = nextToken();
-		System.out.println("trace: readTail(): " + token);
-		if (token == EOF) {
+		if (EOF.equals(token)) {
 			final String msg = "ERROR: readTail() - EOF during read.";
 			System.err.println(msg);
 			throw (new RuntimeException(msg));
-		} else if (token == ")") {
+		} else if (")".equals(token)) {
 			return null;
-		} else if (token == ".") {
+		} else if (".".equals(token)) {
 			Object result = read();
 			token = nextToken();
-			if (token != ")") {
+			if (!")".equals(token)) {
 				System.out.println("WARN: Missing ')'? Received " + token + " after .");
 			}
 			return result;
@@ -180,7 +179,7 @@ public class InputReader {
 				&& (ch != TOK_BACK_QUOT)); // End of do - while
 		
 		// Push a language token onto the character stack
-		charStack.push(new Character((char) ch));
+		charStack.push(Character.valueOf((char) ch));
 	}
 	
 	private Object nextToken() throws IOException {
@@ -188,10 +187,10 @@ public class InputReader {
 
 		// See if we should re-use a pushed char or token
 		// Task 1: Pop the token and character stacks
-		if (!this.tokenStack.empty() && (this.tokenStack.peek() != null)) {
+		if (!this.tokenStack.empty()) {
 			return this.tokenStack.pop();
-		} else if (!this.charStack.empty() && (this.charStack.peek() != null)) {
-			ch = ((Character) this.charStack.pop()).charValue();
+		} else if (!this.charStack.empty()) {
+			ch = this.charStack.pop().charValue();
 		} else {
 			ch = inputReader.read();
 		}
@@ -201,8 +200,6 @@ public class InputReader {
 		while (isWhitespace((char) ch)) {
 			ch = inputReader.read();
 		}
-		System.out.println("trace: nextToken() -> " + (char) ch + " $" + ch);
-
 		// See what kind of non-white character we got
 		// Task 3: Check if the character is of various token types.
 		switch (ch) {
@@ -254,9 +251,9 @@ public class InputReader {
 				if (c == '.' || c == '+' || c == '-' || (c >= '0' && c <= '9')) {
 					try {
 						// Number type is currently in the buffer queue
-						return new Double(buff.toString());
+						return Double.valueOf(buff.toString());
 					} catch (NumberFormatException e) {
-						;
+						// Fall through and treat as a symbol.
 					}
 				} // End of If
 				return buff.toString().toLowerCase();

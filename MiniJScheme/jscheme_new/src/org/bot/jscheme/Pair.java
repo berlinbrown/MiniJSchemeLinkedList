@@ -33,6 +33,7 @@ public class Pair {
 	/**
 	 * Return a String representation of the pair.
 	 */
+	@Override
 	public String toString() {
 		return SchemeUtil.stringify(this);
 	}

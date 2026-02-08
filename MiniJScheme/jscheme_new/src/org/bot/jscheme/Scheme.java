@@ -12,7 +12,7 @@ package org.bot.jscheme;
  */
 public class Scheme {
 
-	private Environment globalEnvironment = new Environment();
+	private final Environment globalEnvironment = new Environment();
 	
 	public static void main(final String [] args) {
 		System.out.println("Running Interpreter");
@@ -24,19 +24,15 @@ public class Scheme {
 		while (true) {
 			if (x instanceof String) {			
 				// VARIABLE
-				System.out.println("trace: eval - instance of String: " + x);
 				// Look up a variable or a procedure (built in function).
 				return env.lookup((String) x);				
 			} else if (!(x instanceof Pair)) { 
 				// CONSTANT
-				System.out.println("trace: eval - instance of Pair =>" + x);
 				return x;
 			} else {
 				// Procedure Call
-				System.out.println("trace: eval[t1] - instance of procedure call");
 				Object fn = SchemeUtil.first(x);
 				Object args = SchemeUtil.rest(x);
-				System.out.println("trace: eval[t2] - fn => [" + fn + "] args => " + args);
 				fn = eval(fn, env);
 				// Coerce the object to a procedure (E.g. '+/add' procedure)
 				Procedure p = Procedure.proc(fn);				

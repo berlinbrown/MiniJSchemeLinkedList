@@ -30,6 +30,7 @@ public class Node {
 	/**
 	 * Return a String representation of the pair.
 	 */
+	@Override
 	public String toString() {
 		return "" + data;
 	}

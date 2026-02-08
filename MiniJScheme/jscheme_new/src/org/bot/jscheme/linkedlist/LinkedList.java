@@ -16,8 +16,6 @@ public class LinkedList {
 	 */
 	public Node head;
 
-	private LinkedList() { }
-	
 	public LinkedList(Node head) {
 		this.head = head;
 	}
@@ -78,9 +76,8 @@ public class LinkedList {
 		} else {
 			throw new RuntimeException("Invalid Operation: try +, -, *, /");
 		}
-        for (Node node = this.getHead(); node != null; node = node.getNext()) {
-        	Double d = new Double((String) node.getData());
-        	double x = d.doubleValue();
+		for (Node node = this.getHead(); node != null; node = node.getNext()) {
+			double x = Double.parseDouble((String) node.getData());
         	switch (operation) {			
 			case '+':
 				result += x;
@@ -104,6 +101,7 @@ public class LinkedList {
 	public String stringify() {
 		return this.getHead().stringifyNode();
 	}
+	@Override
 	public String toString() {		
 		//return this.stringify();
 		return this.traverse();
